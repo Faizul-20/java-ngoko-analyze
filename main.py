@@ -4,7 +4,22 @@ Main Application: Syntax Analyzer Bahasa Jawa Ngoko
 """
 
 import sys
-from colorama import init, Fore, Style
+try:
+    from colorama import init, Fore, Style
+except Exception:
+    def init(*args, **kwargs):
+        return None
+    class _Fore:
+        CYAN = ''
+        YELLOW = ''
+        GREEN = ''
+        MAGENTA = ''
+        RED = ''
+        WHITE = ''
+    class _Style:
+        BRIGHT = ''
+    Fore = _Fore()
+    Style = _Style()
 from core.analyzer import JawaNgokoAnalyzer
 from utils.error_handler import ErrorHandler
 

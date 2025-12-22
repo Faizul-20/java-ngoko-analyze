@@ -3,7 +3,25 @@ from core.grammar import Grammar
 from core.parser import Parser
 from core.tokenizer import Tokenizer
 from core.automata import FiniteAutomata
-from colorama import init, Fore, Style
+from utils.regex_validator import RegexValidator
+
+try:
+    from colorama import init, Fore, Style
+except Exception:
+    # Fallback stubs when colorama is not installed (keeps CLI output plain)
+    def init(*args, **kwargs):
+        return None
+    class _Fore:
+        CYAN = ''
+        YELLOW = ''
+        GREEN = ''
+        MAGENTA = ''
+        RED = ''
+        WHITE = ''
+    class _Style:
+        BRIGHT = ''
+    Fore = _Fore()
+    Style = _Style()
 
 class JawaNgokoAnalyzer:
 
@@ -46,6 +64,7 @@ class JawaNgokoAnalyzer:
                 result["is_valid"] = False
                 return result
             
+            
             #3 validasi FSA
             token_sequence = self.tokenizer.get_token_sequence(valid_tokens)
             fsa_valid,fsa_path,fsa_message = self.automata.validate_sequence(token_sequence)
@@ -64,6 +83,11 @@ class JawaNgokoAnalyzer:
             result["errors"].extend(parse_errors)
 
             # 5 Tentukan validitas akhir
+            Validator = RegexValidator()
+            if not Validator.validate_sentence_structure(text):
+                result["errors"].append("Regex Validation Error: Struktur kalimat tidak sesuai pola yang diharapkan.")
+                cfg_valid = False
+                return result
             result["is_valid"] = fsa_valid and cfg_valid and len(result["errors"]) == 0
 
             if verbose:
