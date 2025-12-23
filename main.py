@@ -4,22 +4,7 @@ Main Application: Syntax Analyzer Bahasa Jawa Ngoko
 """
 
 import sys
-try:
-    from colorama import init, Fore, Style
-except Exception:
-    def init(*args, **kwargs):
-        return None
-    class _Fore:
-        CYAN = ''
-        YELLOW = ''
-        GREEN = ''
-        MAGENTA = ''
-        RED = ''
-        WHITE = ''
-    class _Style:
-        BRIGHT = ''
-    Fore = _Fore()
-    Style = _Style()
+from colorama import init, Fore, Style
 from core.analyzer import JawaNgokoAnalyzer
 from utils.error_handler import ErrorHandler
 
@@ -56,8 +41,7 @@ class MainApp:
                 print(Fore.RED + "Kalimat tidak valid. Menangani kesalahan...")
                 if 'errors' in analysis_result:
                     for error in analysis_result['errors']:
-                        
-                        ErrorHandler().handler_error(Exception(error), context=sentence)
+                        self.error_handler.handler_error(error, context=sentence)
                         print(Fore.YELLOW + f"- Error: {error}")
             else:
                 print(Fore.GREEN + "Kalimat valid menurut grammar dan FSA.")

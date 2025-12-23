@@ -1,27 +1,10 @@
-from unittest import result
 from core.grammar import Grammar
 from core.parser import Parser
 from core.tokenizer import Tokenizer
 from core.automata import FiniteAutomata
 from utils.regex_validator import RegexValidator
-
-try:
-    from colorama import init, Fore, Style
-except Exception:
-    # Fallback stubs when colorama is not installed (keeps CLI output plain)
-    def init(*args, **kwargs):
-        return None
-    class _Fore:
-        CYAN = ''
-        YELLOW = ''
-        GREEN = ''
-        MAGENTA = ''
-        RED = ''
-        WHITE = ''
-    class _Style:
-        BRIGHT = ''
-    Fore = _Fore()
-    Style = _Style()
+from utils.error_handler import ErrorHandler as handle
+from colorama import Fore, Style
 
 class JawaNgokoAnalyzer:
 
@@ -30,6 +13,7 @@ class JawaNgokoAnalyzer:
         self.grammar = Grammar()
         self.parser = Parser(self.grammar)
         self.automata = FiniteAutomata()
+        self.error_handler = handle()
 
         #Validasi grammar saat inisialisasi
         issues = self.grammar.validate_grammar()
@@ -55,24 +39,31 @@ class JawaNgokoAnalyzer:
 
         try:
             #1 Tokenisasi
+            print("tokenizing....")
             tokens = self.tokenizer.tokenize(text)
             result['tokens'] = tokens
 
             #2 Validasi Token
+            print("validating tokens....")
             valid_tokens,token_errors = self.tokenizer.validate_tokens(tokens)
             if token_errors:
-                result["is_valid"] = False
+                print("error token....")
+                eror_msg = self.error_handler.handler_error("TOKENIZATION_ERROR", context=text)
+                result["errors"].append(eror_msg)
+                result["errors"].extend(token_errors)
                 return result
             
             
             #3 validasi FSA
+            print("validating fsa....")
             token_sequence = self.tokenizer.get_token_sequence(valid_tokens)
             fsa_valid,fsa_path,fsa_message = self.automata.validate_sequence(token_sequence)
             result['fsa_path'] = fsa_path
 
             if not fsa_valid:
-                result["errors"].append(f"FSA Validation Error: {fsa_message}")
-                result["is_valid"] = False
+                print("error fsa....")
+                eror_msg = self.error_handler.handler_error("FSA_ERROR", context=text)
+                result["errors"].append(eror_msg)
                 return result
             
 
@@ -85,9 +76,12 @@ class JawaNgokoAnalyzer:
             # 5 Tentukan validitas akhir
             Validator = RegexValidator()
             if not Validator.validate_sentence_structure(text):
-                result["errors"].append("Regex Validation Error: Struktur kalimat tidak sesuai pola yang diharapkan.")
+                print("error structure....")
+                eror_msg = self.error_handler.handler_error("GRAMMAR_VIOLATION", context=text)
+                result["errors"].append(eror_msg)
                 cfg_valid = False
                 return result
+            
             result["is_valid"] = fsa_valid and cfg_valid and len(result["errors"]) == 0
 
             if verbose:
@@ -102,7 +96,6 @@ class JawaNgokoAnalyzer:
         """
         Mencetak hasil analisis dengan format yang baik.
         """
-        init(autoreset=True)
 
         print("\n" + "=" * 60)
         print(f"Analysis Results for: '{analysis_result['sentence']}'")
