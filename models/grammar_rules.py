@@ -15,7 +15,6 @@ class ProductionRules:
         self.productions = {
            "KALIMAT": [
                 ['JEJER', 'WASESA', 'LESAN'],# S-P-O
-                ['JEJER', 'WASESA'] # S-P
               ]
        }
 

@@ -62,6 +62,7 @@ class Vocabulary:
         suggestions.sort(key=lambda x: x[1])
         return [word for word, distance in suggestions]
 
+
     def _levenshtein_distance(self, s1, s2):
         """
         Menghitung jarak Levenshtein antara dua string.

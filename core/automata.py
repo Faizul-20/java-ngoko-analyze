@@ -3,7 +3,7 @@
 class FiniteAutomata:
     def __init__(self):
         self.states = {
-            "q0" : {"JEJER" : "q1"}, #Harus di mulai Dari Jejer
+            "q0" : {"JEJER" : "q1"}, # Harus di mulai Dari Jejer
             "q1" : {"WASESA" : "q2"}, # Setelah Jejer Harus Wasesa
             "q2" : {"LESAN" : "q3"}, # Setelah Wasesa Harus Lesan
             "q3" : {"$" : "ACCEPT" } # Setelah Lesan Harus Akhir Input
