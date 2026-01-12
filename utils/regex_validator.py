@@ -2,54 +2,34 @@ import re
 from data.vocabulary import Vocabulary
 
 class RegexValidator:
-
     def __init__(self):
+        self.vocab = Vocabulary()
         self.patterns = self._compile_patterns()
-        # membangun pola regex untuk kalimat lengkap berdasarkan urutan token.
-        self.sentence_pattern = re.compile(
-            r'^\s*({jejer})\s+({wasesa})\s+({lesan})\s*$'.format(
-                jejer='|'.join(self.patterns['JEJER']),
-                wasesa='|'.join(self.patterns['WASESA']),
-                lesan='|'.join(self.patterns['LESAN'])
-            ),
-            flags=re.IGNORECASE
-        )
-
-    def _token_to_pattern(self, token):
-       # pisahkan token menjadi bagian-bagian (untuk multi-kata)
-        parts = token.strip().split()
-        escaped_parts = [re.escape(p) for p in parts]
-        return r"\s+".join(escaped_parts)
 
     def _compile_patterns(self):
-        """
-        Mengompilasi pola regex untuk setiap kategori token berdasarkan kosakata.
-        """
-        vocab = Vocabulary()
-        raw = {
-            'JEJER': vocab.jejer,
-            'WASESA': vocab.wasesa,
-            'LESAN': vocab.lesan
+        # Escape semua kata untuk regex
+        def escape_words(words):
+            return [re.escape(word) for word in words]
+        
+        return {
+            'KB': '|'.join(escape_words(self.vocab.jejer + self.vocab.lesan)),
+            'V_INTRANS': '|'.join(escape_words([w for w in self.vocab.wasesa if 'turu' in w or 'mlaku' in w])),
+            'V_TRANS': '|'.join(escape_words([w for w in self.vocab.wasesa if 'mangan' in w or 'tuku' in w])),
+            'KS': '|'.join(escape_words(self.vocab.ks)),
+            'KW': '|'.join(escape_words(self.vocab.kw)),
+            'KONJ': '|'.join(escape_words(self.vocab.konj)),
+            'KET': '|'.join(escape_words(self.vocab.ket))
         }
 
-        compiled = {}
-        for k, items in raw.items():
-            patterns = [self._token_to_pattern(item) for item in items]
-            # Urutkan pola berdasarkan panjang (dari yang terpanjang ke terpendek)
-            patterns.sort(key=lambda x: -len(x))
-            compiled[k] = patterns
-        return compiled
-
     def validate_sentence_structure(self, sentence):
-        """
-        Memvalidasi struktur kalimat menggunakan pola regex.
-        Mengembalikan True jika sesuai pola, False jika tidak.
-        """
-        if not sentence or not sentence.strip():
+        # Validasi pola sederhana
+        words = sentence.lower().split()
+        
+        if len(words) < 2:
             return False
-
-        # Normalisasi spasi
-        normalized = re.sub(r"\s+", " ", sentence.strip())
-        match = self.sentence_pattern.match(normalized)
-        return match is not None
-
+            
+        # Cek apakah kata pertama adalah Jejer
+        if words[0] not in self.vocab.jejer:
+            return False
+            
+        return True

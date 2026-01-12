@@ -3,92 +3,90 @@
 Main Application: Syntax Analyzer Bahasa Jawa Ngoko
 """
 
-import sys
-from colorama import init, Fore, Style
+from colorama import init, Fore
 from core.analyzer import JawaNgokoAnalyzer
-from utils.error_handler import ErrorHandler
 
-init(autoreset=True)  # Initialize colorama
-    
+init(autoreset=True)
+
 class MainApp:
     def __init__(self):
         self.analyzer = JawaNgokoAnalyzer()
-        self.error_handler = ErrorHandler()
-
-    def print_welcome(self):
-        print(Fore.GREEN + Style.BRIGHT + "Selamat datang di Jawa Ngoko Analyzer!")
-        print("Masukkan kalimat dalam bahasa Jawa Ngoko untuk dianalisis.")
-        print("Ketik 'exit' untuk keluar dari aplikasi.\n")
+        
 
     def run_test_case(self):
-        # Contoh kalimat untuk pengujian
-        test_sentences = [
-            "Aku mangan sego",
-            "Kowe ngombe banyu",
-            "Dheweke tuku buku",
-            "Ibu maca layang",
-            "Bapak nulis tas",
-            "Mas nggawa klambi",
-            "Mbakyu nyapu omah"
+        """Pengujian dengan contoh kalimat"""
+        print(Fore.CYAN + "\nPENGUJIAN OTOMATIS")
+        
+        test_cases = [
+            ("aku mangan sego", True),
+            ("adik turu", True),
+            ("omahku gedhe", True),
+            ("bapakku guru", True),
+            ("aku mangan lan dheweke ngombe", True),
+            ("mangan aku sego", False),
+            ("aku", False),
+            ("aku mangan", False),
         ]
 
-        for sentence in test_sentences:
-            print(Fore.MAGENTA + f"\nMenganalisis kalimat: '{sentence}'")
-            analysis_result = self.analyzer.analyze(sentence, verbose=True)
-            print(Fore.YELLOW + f"Hasil Analisis: {'VALID' if analysis_result['is_valid'] else 'TIDAK VALID'}")
+        for sentence, expected in test_cases:
+            result = self.analyzer.analyze(sentence, verbose=False)
+            status = "✓" if result['is_valid'] == expected else "✗"
+            color = Fore.GREEN if result['is_valid'] == expected else Fore.RED
+            print(f"{color}{status} '{sentence}': {'VALID' if result['is_valid'] else 'TIDAK VALID'}")
+            
+            if not result['is_valid'] and result['errors']:
+                print(Fore.YELLOW + f"  Error: {result['errors'][0]}")
 
-            if not analysis_result['is_valid']:
-                print(Fore.RED + "Kalimat tidak valid. Menangani kesalahan...")
-                if 'errors' in analysis_result:
-                    for error in analysis_result['errors']:
-                        self.error_handler.handler_error(error, context=sentence)
-                        print(Fore.YELLOW + f"- Error: {error}")
-            else:
-                print(Fore.GREEN + "Kalimat valid menurut grammar dan FSA.")
-    
+        input("\nTekan Enter untuk lanjut...")
 
     def interactive_mode(self):
+        """Analisis kalimat dari pengguna"""
+        print(Fore.CYAN + "\nMODE INTERAKTIF")
+        
         while True:
-            user_input = input(Fore.WHITE + "\nMasukkan kalimat Jawa Ngoko (atau ketik 'exit' untuk keluar): ").strip()
+            print(Fore.WHITE + "-"*40)
+            user_input = input(Fore.YELLOW + "Masukkan kalimat: ").strip()
+            
             if user_input.lower() == 'exit':
-                print(Fore.GREEN + "Terima kasih telah menggunakan Jawa Ngoko Analyzer. Sampai jumpa!")
                 break
-
-            analysis_result = self.analyzer.analyze(user_input, verbose=True)
-
-            if not analysis_result['is_valid']:
-                if 'errors' in analysis_result:
-                    for error in analysis_result['errors']:
-                        ErrorHandler().handler_error(Exception(error), context=user_input)
-                        print(Fore.YELLOW + f"- Error: {error}")
+            
+            if not user_input:
+                continue
+            
+            result = self.analyzer.analyze(user_input, verbose=False)
+            
+            if result['is_valid']:
+                print(Fore.GREEN + "✅ VALID")
+                print(Fore.CYAN + f"Token: {[t['type'] for t in result['tokens']]}")
+                print(Fore.CYAN + f"FSA: {' → '.join(result['fsa_path'])}")
             else:
-                print(Fore.GREEN + "Kalimat valid menurut grammar dan FSA.")
-
+                print(Fore.RED + "❌ TIDAK VALID")
+                if result['errors']:
+                    print(Fore.YELLOW + f"Error: {result['errors'][0]}")
 
     def run(self):
+        """Metode utama"""
         try:
-            self.print_welcome()
-
-            print(f"\n{Fore.WHITE} Pilih Mode Analisis:")
-            print(f"1. {Fore.CYAN}Mode Interaktif")
-            print(f"2. {Fore.CYAN}Mode Pengujian dengan Kasus Contoh")
-            print(f"3. {Fore.CYAN}Keluar")
-
-            choice = input(f"\n{Fore.WHITE}Masukkan pilihan Anda (1/2/3): ").strip()
-
-            if choice == '1':
-                self.interactive_mode()
-            elif choice == '2':
-                self.run_test_case()
-            elif choice == '3':
-                print(Fore.GREEN + "Terima kasih telah menggunakan Jawa Ngoko Analyzer. Sampai jumpa!")
-                sys.exit(0)
-            else:
-                print(Fore.RED + "Pilihan tidak valid. Silakan coba lagi.")
+            while True:
+                
+                print(Fore.WHITE + "\nMENU:")
+                print("1. Analisis Kalimat")
+                print("2. Pengujian Otomatis")
+                print("3. Keluar")
+                
+                choice = input(Fore.YELLOW + "Pilih: ").strip()
+                
+                if choice == '1':
+                    self.interactive_mode()
+                elif choice == '2':
+                    self.run_test_case()
+                elif choice == '3':
+                    print(Fore.GREEN + "Terima kasih!")
+                    break
+                    
         except KeyboardInterrupt:
-            print(Fore.GREEN + "\nTerima kasih telah menggunakan Jawa Ngoko Analyzer. Sampai jumpa!")
-            sys.exit(0)
-            
+            print(Fore.YELLOW + "\nProgram dihentikan")
+
 if __name__ == "__main__":
-    main_app = MainApp()
-    main_app.run()
+    app = MainApp()
+    app.run()
