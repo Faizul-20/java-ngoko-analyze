@@ -10,4 +10,6 @@ KONJ_VOCAB = [
     # Konjungsi korelatif
     'apa...apa', 'sanadyan...nanging',
     'sakwise...banjur', 'sadurunge...wis'
+    
+    ,'dene'
 ]

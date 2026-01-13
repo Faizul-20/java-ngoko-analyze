@@ -56,6 +56,7 @@ class ProductionRules:
                 ["NP", "ADJ"],                            # Omahku gedhe (q2)
                 ["NP", "NUM"],                            # Sapine lima (q2)
                 ["NP", "NP"],                             # Bapakku guru (q2)
+                ["V_INTRANS", "NP"],                      # Teka Bapak
                 
                 # 2. POLA DENGAN KETERANGAN AWAL (q0 → q4 → ...)
                 ["PREP", "NP", "V_INTRANS"],              # Ing kamar adhik turu

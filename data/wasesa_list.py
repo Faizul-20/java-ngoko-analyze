@@ -65,7 +65,12 @@ WASESA_TRANSITIVE = [
     # MEMASAK - Transitif
     # =============================================
     'nggoreng', 'nggodhog', 'nggangsir', 'ngpanggang', 'ngbakar',
-    'nguleg', 'ngulek', 'nyampur', 'ngaduk'
+    'nguleg', 'ngulek', 'nyampur', 'ngaduk',
+    
+    #
+    # Tambahan Sendiri
+    # 
+    'dadi'
 ]
 
 # Kata kerja intransitif (Wasesa Penggawe Intransitif) - TIDAK BUTUH OBJEK
@@ -74,7 +79,7 @@ WASESA_INTRANSITIVE = [
     # TIDUR & ISTIRAHAT - Intransitif
     # =============================================
     'turu', 'sare', 'nglelep', 'mekutha', 'ngorok', 'ngimpi',
-    'ndremi', 'ngantuk', 'tilem',
+    'ndremi', 'ngantuk', 'tilem','tangi',
     
     # =============================================
     # BERGERAK - Intransitif
@@ -106,6 +111,9 @@ WASESA_INTRANSITIVE = [
     'sinau', 'maos', 'wulang', 'mulang', 'ngajar', 'marahi',
     'ngandhani', 'nulungi', 'mbantu', 'ngewangi', 'ngewales',
     'ngopeni', 'ngajari'
+    
+    #SENDIRI
+    ,'adus'
 ]
 
 # Untuk backward compatibility 

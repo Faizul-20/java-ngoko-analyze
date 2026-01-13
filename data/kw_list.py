@@ -14,5 +14,5 @@ KW_VOCAB = [
     # Ratusan dan ribuan
     'satus', 'rongatus', 'telungatus', 'patangatus', 'limangatus',
     'nematus', 'pitungatus', 'wolungatus', 'sangangatus',
-    'sewu', 'rongewu', 'telungewu'
+    'sewu', 'rongewu', 'telungewu','satusewu'
 ]

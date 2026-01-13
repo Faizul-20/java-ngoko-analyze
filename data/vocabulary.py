@@ -1,4 +1,3 @@
-import logging
 import re
 
 try:
@@ -52,15 +51,15 @@ class Vocabulary:
         self._build_word_types()
         
         print(f"\n[VOCAB] 📚 Kosakata dimuat:")
-        print(f"  🔵 Jejer: {len(self.jejer)} kata")
-        print(f"  🔴 Wasesa Transitif: {len(self.wasesa_transitive)} kata")
-        print(f"  🟠 Wasesa Intransitif: {len(self.wasesa_intransitive)} kata")
-        print(f"  🟢 Lesan: {len(self.lesan)} kata")
-        print(f"  🟣 KS: {len(self.ks)} kata")
-        print(f"  🟡 KW: {len(self.kw)} kata")
-        print(f"  ⚫ Konjungsi: {len(self.konj)} kata")
-        print(f"  ⚪ Keterangan: {len(self.ket)} kata")
-        print(f"  📊 Total unik: {len(self.word_types)} kata")
+        print(f"  Jejer: {len(self.jejer)} kata")
+        print(f"  Wasesa Transitif: {len(self.wasesa_transitive)} kata")
+        print(f"  Wasesa Intransitif: {len(self.wasesa_intransitive)} kata")
+        print(f"  Lesan: {len(self.lesan)} kata")
+        print(f"  KS: {len(self.ks)} kata")
+        print(f"  KW: {len(self.kw)} kata")
+        print(f"  Konjungsi: {len(self.konj)} kata")
+        print(f"  Keterangan: {len(self.ket)} kata")
+        print(f"  Total unik: {len(self.word_types)} kata")
 
     def _build_word_types(self):
         """Bangun mapping kata ke tipe token dengan prioritas"""

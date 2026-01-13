@@ -80,6 +80,15 @@ class Parser:
         """Pola dasar untuk semua kalimat"""
         patterns = []
         
+        # ukara lamba
+        if len(token_symbols) >= 2 and token_symbols[0] == 'V_INTRANS' and token_symbols[1] == 'NP':
+            patterns.append({
+                'pattern': ['V_INTRANS','NP'],
+                'production': ['V_INTRANS','NP'],
+                'description': 'Ukara lamba (W-J)'
+            })
+        
+        
         # 1. Wasesa Penggawe Intransitif: NP V_INTRANS
         if len(token_symbols) >= 2 and token_symbols[0] == 'NP' and token_symbols[1] == 'V_INTRANS':
             patterns.append({

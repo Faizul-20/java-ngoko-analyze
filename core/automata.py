@@ -9,10 +9,11 @@ class FiniteAutomata:
         # Bisa kembali ke q0 via KONJ untuk kalimat majemuk
         
         self.states = {
-            # Q0: Start state - menunggu Jejer, bisa juga langsung Keterangan
+            # Q0: Start state - menunggu Jejer, Keterangan,V_INTRANS
             "q0": {
                 "JEJER": "q1",
-                "KETRANGAN": "q4"  # Bisa mulai dengan keterangan
+                "KETRANGAN": "q4",  # Bisa mulai dengan keterangan
+                "WASESA_INTRANS" : "q1"  
             },
             
             # Q1: Setelah Jejer - bisa ke berbagai jenis Wasesa
@@ -22,17 +23,24 @@ class FiniteAutomata:
                 "KS": "q2",               # Kata sifat
                 "KW": "q2",               # Kata bilangan
                 "NP": "q2",               # Wasesa Aran (NP langsung)
-                "KETRANGAN": "q4"         # Ke keterangan
+                "KETRANGAN": "q4",         # Ke keterangan
+                "JEJER":"q2",
+                "KONJ": "q0"              # Kalimat majemuk
+                
             },
             
             # Q2: Final untuk kalimat sederhana (intransitif, adjektival, numeral, nominal)
             "q2": {
+            
                 "$": "ACCEPT",
                 "KETRANGAN": "q11",       # Tambah keterangan
                 "KONJ": "q0",             # Kalimat majemuk
                 "KS": "q11",              # Penguat kata sifat
                 "KW": "q11",              # Tambahan bilangan
-                "PREP": "q11"             # Preposisi sebagai keterangan
+                "PREP": "q11",          # Preposisi sebagai keterangan
+                "WASESA_TRANS" : "q11",
+                "WASESA_INTRANS" : "q11"
+                
             },
             
             # Q3: State untuk transitif - menunggu Lesan (objek)
@@ -40,7 +48,7 @@ class FiniteAutomata:
                 "LESAN": "q5",
                 "NP": "q5",               # Lesan juga NP
                 "KETRANGAN": "q4",        # Bisa ke keterangan dulu
-                "JEJER": "q9"             # Error: double subject
+                "JEJER": "q5"             # Error: double subject
             },
             
             # Q4: Setelah Ketrangan - kembali ke pola normal

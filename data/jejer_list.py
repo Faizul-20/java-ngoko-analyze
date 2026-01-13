@@ -15,7 +15,7 @@ JEJER_VOCAB = [
     'bapak', 'ibu', 'ayah', 'biyung', 'rama', 'mbok',
     'adik', 'adhi', 'mas', 'mbak', 'kakang', 'teteh',
     'kakak', 'mbakyu', 'kangmas', 'nak', 'anak', 'putra',
-    'putri', 'lanang', 'wadon', 'jaler', 'estri', 'bojo',
+    'putri', 'wadon', 'jaler', 'estri', 'bojo',
     'garwa',
     
     # =============================================
@@ -74,5 +74,5 @@ JEJER_VOCAB = [
     # =============================================
     'srengenge', 'rembulan', 'lintang', 'bintang', 'udan',
     'angin', 'bledheg', 'gludhug', 'kilat', 'kebul', 'mega',
-    'awan', 'bumi', 'langit', 'samodra'
+    'awan', 'bumi', 'langit', 'samodra','duwit'
 ]

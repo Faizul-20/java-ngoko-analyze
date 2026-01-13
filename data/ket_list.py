@@ -10,14 +10,14 @@ KET_VOCAB = [
     # Keterangan tempat
     'ing', 'ning', 'saka', 'marang', 'menyang',
     'ing kene', 'ing kono', 'ing ngendi', 'sabubare',
-    'nang', 'neng', 'saking', 'teka', 'mulih', 'lunga',
+    'nang', 'neng', 'saking', 'mulih', 'lunga',
     'mrene', 'mrono', 'mrana', 'kiwa', 'tengen', 'ngarep',
     'mburi', 'nduwur', 'ngisor', 'jerone', 'njabane',
     
     # Keterangan cara
-    'kaya', 'kayak', 'dadi', 'kanti', 'kanthi',
+    'kaya', 'kayak', 'kanti', 'kanthi',
     'sareng', 'karo', 'bareng', 'dhedhasar',
-    'karo', 'kaliyan', 'lan', 'sarta', 'utawa',
+    'karo', 'kaliyan', 'sarta', 'utawa',
     'aja', 'wae', 'baen', 'gelem', 'kudu', 'kepengin',
     
     # Keterangan alat
@@ -30,9 +30,11 @@ KET_VOCAB = [
     
     # Keterangan frekuensi
     'kerep', 'arang', 'sok', 'tau', 'pisan', 'tansah',
-    'asal', 'biasane', 'lumrahe', 'umume',
+    'asal', 'biasane', 'lumrahe', 'umume','banter','alon',
     
     #Keterangan kepastian
     'mesti', 'pasti', 'uga', 'uwi', 'yaiku', 'kayata',
-    'kayane', 'kudune', 'samesthine'
+    'kayane', 'kudune', 'samesthine',
+    
+    'lanang'
 ]
